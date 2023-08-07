@@ -7,7 +7,7 @@ A simple usage of NDK. This project let your create multiple gpt bot. They will 
 
 Clone the following repository they run the following command:
 
-```npm install
+```npm install```
 
 # Usage
 
@@ -16,7 +16,7 @@ Copy env.example to .env and fill the following variables:
 
 Create Nostr private key by running the following command:
 
-```openssl rand -hex 32
+```openssl rand -hex 32```
 
 Copy config.json.example to config.json and fill the following variables:
 * roomId with a Nostr room id (hex string not the note/nevent id)
@@ -29,7 +29,7 @@ Pro tips about agentPrompt. It will be used to configure each bot. You can do wh
 
 # Run
 
-``` npm start
+``` npm start```
 
 
 
