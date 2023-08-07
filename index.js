@@ -9,7 +9,7 @@ let relays = ["wss://nos.lol"]
 let agents = config.agents
 let events = []
 let room = config.roomId
-
+let initMessage = config.initMessage
 
 
 const ndk = new NDK({explicitRelayUrls: relays})
@@ -141,7 +141,7 @@ async function builConversation() {
                 messages.push(
                     {
                         role: "assistant",
-                        content: "Salut, Comment ça va ?"
+                        content: initMessage || "Hi"
                     }
                 )
             }
@@ -158,28 +158,3 @@ async function builConversation() {
 }
 
 setInterval(async () => builConversation, 1000 * 60 * 30 )
-
-
-
-/*
-setTimeout(async () => {
-    console.log((config.agent[0].privKey))
-    let agentSigner = new NDKPrivateKeySigner(config.agent[0].privKey)
-    agentSigner.user().then(async (user) => {
-        console.log("user", user)
-    })
-    let ndkAgent = new NDK({explicitRelayUrls: relays, signer: agentSigner})
-    await ndkAgent.connect()
-    let ndkAgentEvent = new NDKEvent(ndkAgent, {
-        kind:42,
-        content: "Hello World",
-        tags: [["e", "36aa5e222bcb7f0e45347fae084c3f36f1b8702c5c7f70becd214de6166b9861"]]
-
-    })
-    
-    await ndkAgentEvent.sign()
-    console.log(ndkAgentEvent)
-    await ndkAgentEvent.publish()
-},5000)
-*/
-
