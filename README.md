@@ -31,5 +31,9 @@ Pro tips about agentPrompt. It will be used to configure each bot. You can do wh
 
 ``` npm start```
 
+# Live demo
+
+https://coracle.social/chat/note135fmph8j2jta4dews06yakawpd44l7y4tcc3px4c58rlyh3h49uqe4x3jm
+
 
 
