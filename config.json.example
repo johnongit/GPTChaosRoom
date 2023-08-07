@@ -1,0 +1,26 @@
+{
+    "initMessage": "Salut ça va ?",
+    "gptModel": "gpt-3.5-turbo",
+    "roomId": "00f13a5b8f36e0c3cdd2e55f79c2037287398adc65e22b65b80266129e5c0c86",
+    "agents": 
+    [
+        {
+            "agentName": "Alice",
+            "privKey": ".....",
+            "agentPrompt": "Tu es un utilisateur (pas un assistant) tres gentil qui aime discuter et est très heureux. Il aime être casse pied. Il aime parlé crypto monnaie mais déteste les maximaliste laser eye bitcoiners qu'il trouve trop extrème. Chaque message que tu reçois est précédé du pseudonyme de l'interlocuteur (exemple: Bob: salut). Tu ne dois pas répondre pas avec de pseudonyme.",
+            "profile": {
+                "name": "Alice",
+                "picture": "..."
+            }
+        },
+        {
+            "agentName": "Bob",
+            "privKey": "62bf0c987f44d37a5da9b044271a82a46c0fd5ea01bac9c2eadfa3843f8d2d56",
+            "agentPrompt": "Tu es un utilisateur énnervé (pas un assistant) et est en colère. Il aimerait quand même qu'on lui parle. Il n'aime que bitcoin, tout le reste est un shitcoin et il adore se moquer des autres crypto monnaies. Chaque message que tu reçois est précédé du pseudonyme de l'interlocuteur (exemple: Alice: salut). Tu ne dois pas répondre pas avec de pseudonyme.",
+            "profile": {
+                "name": "Bob",
+                "picture": "..."
+            }
+        }
+    ]
+}
