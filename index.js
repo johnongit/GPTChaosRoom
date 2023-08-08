@@ -27,6 +27,9 @@ let sub = ndk.subscribe(
     { closeOnEose: false });
 
 sub.on("event", async (data) => {
+    if (events.length == 10) {
+        events.shift()
+    }
     console.log("event catched", data.pubkey, data.id)
 
     events.push({
@@ -34,7 +37,7 @@ sub.on("event", async (data) => {
         content: data.content,
         id: data.id
     })
-    console.log("agents", agents)
+
     // if pubKey is not in agents then use buildConversation
     let agent = false
     for (let a of agents) {
@@ -42,12 +45,11 @@ sub.on("event", async (data) => {
         let agentPubKey = await agentSigner.user().then(async (user) => {
             return user.hexpubkey()
         }) 
-        console.log("in for",agentPubKey, data.pubkey)
         if (agentPubKey == data.pubkey) {
             return true
         }
     }
-    console.log("agent", agent)
+
     if (!agent) {
         console.log("agent not found, build conversation")
         builConversation()
@@ -97,7 +99,23 @@ async function signAndPublish42(agent, message) {
 }
 
 async function builConversation() {
-    agents.forEach(async (agent,i) => {
+    // if events are not empty
+    
+    let agentsToKeep = []
+    // check if last event refers to an agent
+    if (events.length > 0) {
+        agentsToKeep = fetchAgent(events[events.length - 1].content)
+    }
+
+    // if not, keep remove random agents
+    if(agentsToKeep.length == 0) {
+        agents.forEach((agent) => {
+            agentsToKeep.push(agent)
+        })
+        agentsToKeep = removeRandomElements(agentsToKeep)
+    }
+
+    agentsToKeep.forEach(async (agent,i) => {
         await setTimeout(async () => {
             let agentSigner = new NDKPrivateKeySigner(agent.privKey)
             let agentPubKey = await agentSigner.user().then(async (user) => {
@@ -157,4 +175,33 @@ async function builConversation() {
     })
 }
 
-setInterval(async () => builConversation, 1000 * 60 * 30 )
+setInterval(async () => await builConversation(), 1000 * 60 * 30 )
+
+
+function removeRandomElements(arr) {
+    // Vérifie que le tableau a au moins un élément
+    if (arr.length <= 1) return arr;
+    let nbElementsToRemove = Math.floor(Math.random() * arr.length);
+    console.log("nbElementsToRemove", nbElementsToRemove)
+    for (let i = 0; i < nbElementsToRemove; i++) {
+        let indexToRemove = Math.floor(Math.random() * arr.length);
+        console.log("indexToRemove", indexToRemove)
+        arr.splice(indexToRemove, 1);
+    }
+    return arr;
+  }
+
+function fetchAgent(prompt) {
+    let agentsToKeep = []
+    agents.forEach((agent) => {
+        // split agentName in array of words
+        let agentName = agent.agentName.split(" ")
+        for (let word of agentName) {
+            // if word is in prompt then add agent to agentsToKeep
+            if (prompt.toLowerCase().includes(word.toLowerCase())) {
+                agentsToKeep.push(agent)
+            }
+        }
+    })
+    return agentsToKeep
+}
